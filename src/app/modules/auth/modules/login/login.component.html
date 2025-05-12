@@ -1,0 +1,17 @@
+<div>
+    <h1 class="d-flex justify-content-center">Iniciar Sesión</h1>
+</div>
+<form class="grid formgrid">
+    <mat-form-field class="col-12">
+        <mat-label>Email</mat-label>
+        <input matInput>
+    </mat-form-field>
+    <mat-form-field class="col-12">
+        <mat-label>Contraseña</mat-label>
+        <input matInput>
+    </mat-form-field>
+    <div class="class col-12 d-flex justify-content-center">
+        <button style="margin-right: 25px;" mat-flat-button type="submit">Registrarse</button>
+        <button (click)="logIn()" mat-flat-button type="button">Iniciar Sesión</button>
+    </div>
+</form>

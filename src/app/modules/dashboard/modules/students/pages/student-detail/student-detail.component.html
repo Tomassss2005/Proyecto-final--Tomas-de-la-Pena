@@ -1,0 +1,9 @@
+@if (!(student$ | async)) {
+
+<p>Este estudiante no se encontró</p>
+} @else {
+
+<h2> Nombre y apellido: {{ (student$ | async )?.nombre }} {{ (student$ | async)?.apellido}}</h2>
+<h2> Curso: {{ (student$ | async )?.curso }}</h2>
+<h2> Nota: {{ (student$ | async )?.nota }} </h2>
+}
