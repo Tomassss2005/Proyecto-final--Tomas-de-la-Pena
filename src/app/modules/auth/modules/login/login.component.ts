@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../../core/services/auth.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -8,12 +11,30 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
 
-  constructor(private router: Router) { }
+  loginForm: FormGroup;
+
+
+  constructor(private router: Router, private authService: AuthService, private fb: FormBuilder, private httpclient: HttpClient) {
+    this.loginForm = this.fb.group({
+      email: ['', Validators.required],
+      password: ['', Validators.required],
+    })
+  }
 
 
   logIn() {
-    console.log('Iniciar sesión');
-    localStorage.setItem('token', '2947819045');
-    this.router.navigate(['dashboard']);
+    if (this.loginForm.invalid) {
+      alert('Formulario incompleto')
+      return
+    } else {
+      const { email, password } = this.loginForm.value;
+      const user = this.authService.login(email, password);
+
+      /* if (user) {
+        this.router.navigate(['/dashboard']);
+      } else {
+        alert('Email o contraseña incorrecto');
+      } */
+    }
   }
 }

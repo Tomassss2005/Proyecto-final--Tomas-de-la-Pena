@@ -1,0 +1,23 @@
+<div class="container">
+    <h2>Listado de Cursos</h2>
+
+    <ul class="course-list">
+        <li *ngFor="let course of courses">
+            {{ course.name }}
+        </li>
+    </ul>
+
+    <div class="formulario-curso">
+        <h3>Agregar nuevo curso</h3>
+        <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+            <input formControlName="name" placeholder="Nombre del curso" />
+            <select formControlName="level">
+                <option value="" disabled selected>Selecciona un nivel</option>
+                <option value="Inicial">Inicial</option>
+                <option value="Intermedio">Intermedio</option>
+                <option value="Avanzado">Avanzado</option>
+            </select>
+            <button type="submit">Crear curso</button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,37 @@
+.card {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+    margin: 1rem auto;
+    max-width: 500px;
+    transition: box-shadow 0.3s ease;
+
+    &:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    h2 {
+        margin-top: 0;
+        font-size: 1.5rem;
+        color: #333;
+    }
+
+    p {
+        font-size: 1rem;
+        margin: 0.5rem 0;
+        color: #555;
+    }
+}
+
+.mensaje {
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    color: #856404;
+}
+
+.informacion {
+    background-color: #f0f8ff;
+    border: 1px solid #cce5ff;
+}

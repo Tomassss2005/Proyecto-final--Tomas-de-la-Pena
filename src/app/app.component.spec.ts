@@ -14,22 +14,21 @@ describe('AppComponent', () => {
     }).compileComponents();
   });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
+  //Test individual
 
-  it(`should have as title 'entrega-1-angular'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('entrega-1-angular');
-  });
+  it('Está aplicación debe crearse', () => {
 
-  it('should render title', () => {
+    //Se crea el componente 
     const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, entrega-1-angular');
+
+    //Se extrae la instancia del componente
+    const app = fixture.componentInstance;
+
+    //Espera que
+    expect(app).
+
+      //Matchers son funciones que permiten hacer comparaciones
+      //Truthy es algo no nulo ni definido 
+      toBeTruthy();
   });
 });

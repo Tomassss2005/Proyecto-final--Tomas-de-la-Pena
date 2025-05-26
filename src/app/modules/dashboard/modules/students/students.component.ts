@@ -1,8 +1,13 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Student } from './models/student';
 import { StudentService } from './student.service';
-import { Subscription } from 'rxjs';
+import { Course } from '../courses/models'; // Asegurate de tener este import
+import { Observable, Subscription } from 'rxjs';
+import { User } from '../../../../core/models';
+import { AuthService } from '../../../../core/services/auth.service';
+import { Router } from '@angular/router';
+import { CoursesService } from '../courses/courses.service';
 
 @Component({
   selector: 'app-students',
@@ -10,19 +15,25 @@ import { Subscription } from 'rxjs';
   templateUrl: './students.component.html',
   styleUrl: './students.component.scss'
 })
-export class StudentsComponent implements OnDestroy {
+export class StudentsComponent implements OnInit, OnDestroy {
   isEditingId: number | null = null;
-  studentForm: FormGroup
+  studentForm: FormGroup;
   students: Student[] = [];
+  courses: Course[] = [];
+  dataSource: any[] = [];
   isLoading = false;
 
-  studentsSubscription: Subscription | null = null
+  studentsSubscription: Subscription | null = null;
+  authUser$: Observable<User | null>;
 
-
-  constructor(private fb: FormBuilder, private studentService: StudentService) {
-
-    //this.loadStudents();
-    this.loadStudentsObservable();
+  constructor(
+    private fb: FormBuilder,
+    private studentService: StudentService,
+    private coursesServices: CoursesService,
+    private authService: AuthService,
+    private router: Router
+  ) {
+    this.authUser$ = this.authService.authUser$;
 
     this.studentForm = this.fb.group({
       id: "",
@@ -32,59 +43,99 @@ export class StudentsComponent implements OnDestroy {
       curso: "",
     });
   }
+
+  ngOnInit(): void {
+    this.loadData();
+  }
+
   ngOnDestroy(): void {
     this.studentsSubscription?.unsubscribe();
   }
 
-
-
-  loadStudentsObservable() {
+  loadData(): void {
     this.isLoading = true;
-    this.studentsSubscription = this.studentService.getStudents$()
-      .subscribe({
-        next: (datos) => {
-          console.log(datos),
-            this.students = datos;
+
+    this.coursesServices.getCourses().subscribe(courses => {
+      this.courses = courses;
+
+      this.studentsSubscription = this.studentService.getStudents$().subscribe({
+        next: (students) => {
+          this.students = students;
+          this.dataSource = this.students.map(student => {
+            const curso = this.courses.find(c => String(c.id) === String(student.curso));
+            return {
+              ...student,
+              cursoNombre: curso ? curso.name : 'Curso no encontrado'
+            };
+          });
         },
-      })
-    this.studentService.getStudents$().subscribe({
-      error: error => console.error(error),
-      complete: () => {
-        this.isLoading = false;
-      }
+        error: error => console.error(error),
+        complete: () => {
+          this.isLoading = false;
+        }
+      });
     });
   }
 
   onsubmit() {
-
     if (this.isEditingId) {
-      // Si está editando actualiza el usuario existente
-
-      this.students = this.students.map((student) => student.id === this.isEditingId
-        ? { ...student, ...this.studentForm.value } : student)
-
+      this.students = this.students.map((student) =>
+        student.id === this.isEditingId
+          ? { ...student, ...this.studentForm.value }
+          : student
+      );
     } else {
       const newStudent = this.studentForm.value;
-      newStudent.id = this.students.length + 1;
-      this.students = [...this.students, this.studentForm.value];
-      console.log(this.students);
+
+      this.studentService.createStudent(newStudent).subscribe({
+        next: (response) => {
+          this.students = [...this.students, response];
+          this.loadData(); // actualiza dataSource también
+        },
+        error: (error) => console.log('El estudiante no se pudo crear', error),
+        complete: () => {
+          console.log('Estudiante creado con éxito');
+        },
+      });
     }
-    this.studentForm.reset() // Resetea el formulario al modificar
+
+    this.studentForm.reset();
     this.isEditingId = null;
   }
 
-
-  onDeleteStudent(id: number) {
-    console.log('Estudiante eliminado', id);
+  onDeleteStudent(id: number | string) {
     if (confirm('¿Está seguro que quiere eliminar este estudiante?')) {
-      this.students = this.students.filter((student) => student.id !== id);
+      this.studentService.deleteStudent(String(id)).subscribe({
+        next: (response) => {
+          this.students = response;
+          this.loadData(); // actualiza dataSource también
+        }
+      });
     }
   }
 
-
   onEditStudent(student: Student) {
     this.isEditingId = student.id;
-    console.log('Estudiante modificado', student);
     this.studentForm.patchValue(student);
+  }
+
+  onSaveChanges() {
+    if (this.isEditingId !== null) {
+      const updatedStudent = this.studentForm.value;
+      this.studentService.editStudent(this.isEditingId, updatedStudent).subscribe({
+        next: (response) => {
+          this.loadData();
+          this.studentForm.reset();
+          this.isEditingId = null;
+        },
+        error: (err) => {
+          console.error('Error al actualizar', err);
+        }
+      });
+    }
+  }
+
+  onViewDetail(id: number) {
+    this.router.navigate(['/students', id]);
   }
 }

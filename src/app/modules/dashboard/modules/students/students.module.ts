@@ -22,11 +22,11 @@ import { StudentDetailComponent } from './pages/student-detail/student-detail.co
     StudentsTableComponent,
     StudentNameCategoryPipe,
     HighlightDirective,
-    StudentDetailComponent,
   ],
   imports: [
     CommonModule,
     StudentsRoutingModule,
+    StudentDetailComponent,
     MatTableModule,
     MatFormFieldModule,
     MatInputModule,

@@ -1,0 +1,20 @@
+<h2>Inscripciones</h2>
+<div class="formulario-inscripcion">
+    <form [formGroup]="inscriptionForm" (ngSubmit)="onSubmit()">
+        <label for="studentId">Alumno:</label>
+        <select formControlName="studentId" id="studentId">
+            <option *ngFor="let student of students" [value]="student.id">
+                {{ student.nombre }} {{ student.apellido }}
+            </option>
+        </select>
+
+        <label for="courseId">Curso:</label>
+        <select formControlName="courseId" id="courseId">
+            <option *ngFor="let course of courses" [value]="course.id">
+                {{ course.name }}
+            </option>
+        </select>
+
+        <button type="submit" [disabled]="inscriptionForm.invalid">Inscribir</button>
+    </form>
+</div>

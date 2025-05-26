@@ -1,9 +1,9 @@
-@if (!(student$ | async)) {
+<div *ngIf="!student" class="card mensaje">
+    <p>Este estudiante no se encontró</p>
+</div>
 
-<p>Este estudiante no se encontró</p>
-} @else {
-
-<h2> Nombre y apellido: {{ (student$ | async )?.nombre }} {{ (student$ | async)?.apellido}}</h2>
-<h2> Curso: {{ (student$ | async )?.curso }}</h2>
-<h2> Nota: {{ (student$ | async )?.nota }} </h2>
-}
+<div *ngIf="student" class="card informacion">
+    <h2>{{ student.nombre }} {{ student.apellido }}</h2>
+    <p><strong>Curso:</strong> {{ courseNombre }}</p>
+    <p><strong>Nota:</strong> {{ student.nota }}</p>
+</div>

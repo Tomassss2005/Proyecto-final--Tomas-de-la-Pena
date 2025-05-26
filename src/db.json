@@ -1,0 +1,94 @@
+{
+  "students": [
+    {
+      "id": "9f39",
+      "nombre": "tomas",
+      "apellido": "aaa",
+      "nota": "2",
+      "curso": "3"
+    }
+  ],
+  "lists": [],
+  "users": [
+    {
+      "id": "1",
+      "name": "Lock",
+      "lastname": "admin",
+      "email": "lock@gmail.com",
+      "password": "390157",
+      "role": "ADMIN",
+      "token": "HJ4DH567KAJWIQ2838SNU2U2H"
+    },
+    {
+      "id": "2",
+      "name": "Jason",
+      "lastname": "Laquer",
+      "email": "jason@gmail.com",
+      "password": "391158",
+      "role": "employee",
+      "token": "8H2NCJVDJ01098324"
+    }
+  ],
+  "courses": [
+    {
+      "id": 1,
+      "name": "Angular Básico",
+      "description": "Curso introductorio de Angular"
+    },
+    {
+      "id": "5446",
+      "name": "angular",
+      "description": ""
+    },
+    {
+      "id": "6fa6",
+      "name": "react",
+      "description": ""
+    }
+  ],
+  "inscriptions": [
+    {},
+    {
+      "id": "0570",
+      "studentId": null,
+      "courseId": "1"
+    },
+    {
+      "id": "f462",
+      "studentId": null,
+      "courseId": "1"
+    },
+    {
+      "id": "a7a0",
+      "studentId": null,
+      "studentNombre": "aaaq",
+      "studentApellido": "sssa",
+      "courseId": "5446",
+      "courseNombre": "angular"
+    },
+    {
+      "id": "7046",
+      "studentId": null,
+      "studentNombre": "tomas",
+      "studentApellido": "lotas",
+      "courseId": "5446",
+      "courseNombre": "angular"
+    },
+    {
+      "id": "5a7e",
+      "studentId": null,
+      "studentNombre": "tomas",
+      "studentApellido": "lotas",
+      "courseId": "6fa6",
+      "courseNombre": "react"
+    },
+    {
+      "id": "829c",
+      "studentId": null,
+      "studentNombre": "lucia",
+      "studentApellido": "ela",
+      "courseId": "6fa6",
+      "courseNombre": "react"
+    }
+  ]
+}

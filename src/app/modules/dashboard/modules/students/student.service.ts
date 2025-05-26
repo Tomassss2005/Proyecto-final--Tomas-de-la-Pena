@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
-import { Student } from "./models/student";
-import { Observable, map, of } from "rxjs";
+import { Student, StudentForm } from "./models/student";
+import { Observable, concatMap, map, of } from "rxjs";
+import { HttpClient } from "@angular/common/http";
 
 
 const MY_BD: Student[] = [
@@ -17,13 +18,18 @@ const MY_BD: Student[] = [
 @Injectable({ providedIn: 'root' })
 export class StudentService {
 
-    getStudentById(id: number): Observable<Student | null> {
+    constructor(private http: HttpClient) { }
 
-        return of([...MY_BD]).pipe(
-            map((students) => students.find((student) => student.id == id) || null)
-
-            );
+    createStudent(student: StudentForm): Observable<Student> {
+        const { id, ...studentWithoutId } = student as any;
+        return this.http.post<Student>(`http://localhost:3000/students`, studentWithoutId);
     }
+
+
+    getStudentById(id: number): Observable<Student> {
+        return this.http.get<Student>(`http://localhost:3000/students/${id}`);
+    }
+
 
     getStudents(): Promise<Student[]> {
         console.log('Fetching students');
@@ -37,7 +43,7 @@ export class StudentService {
         const studentPromise = new Promise<Student[]>((resolve, reject) => {
 
             setTimeout(() => {
-                reject('Error fetching students')
+                reject('Error fetching students');
             }, 2000);
         });
 
@@ -46,13 +52,17 @@ export class StudentService {
     }
 
     getStudents$(): Observable<Student[]> {
-        const studentObservable = new Observable<Student[]>((observer) => {
-            setTimeout(() => {
-                observer.next(MY_BD),
-                    observer.complete();  //Cuando se completa el observable.
-            }, 2000)
-        })
 
-        return studentObservable;
+        return this.http.get<Student[]>(`http://localhost:3000/students`);
+    }
+
+    deleteStudent(id: string): Observable<Student[]> {
+        return this.http.delete<Student[]>(`http://localhost:3000/students/${id}`)
+            .pipe(concatMap(() =>
+                this.getStudents$()));
+    };
+
+    editStudent(id: number, student: Student): Observable<Student> {
+        return this.http.put<Student>(`http://localhost:3000/students/${id}`, student);
     }
 }
