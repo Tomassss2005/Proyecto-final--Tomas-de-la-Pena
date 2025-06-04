@@ -1,14 +1,30 @@
 {
   "students": [
     {
-      "id": "9f39",
-      "nombre": "tomas",
-      "apellido": "aaa",
-      "nota": "2",
-      "curso": "3"
+      "id": "ee53",
+      "nombre": "Tomás",
+      "apellido": "Laje",
+      "nota": "10",
+      "curso": "1"
     }
   ],
-  "lists": [],
+  "lists": [
+    {
+      "id": "6d10",
+      "userId": "Ana0",
+      "studentId": "nm2a"
+    },
+    {
+      "id": "ad67",
+      "userId": "Tomas04",
+      "studentId": "Tomas de la Peña"
+    },
+    {
+      "id": "d87e",
+      "userId": "Tomas05",
+      "studentId": "Tomas de la Peña"
+    }
+  ],
   "users": [
     {
       "id": "1",
@@ -31,7 +47,7 @@
   ],
   "courses": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Angular Básico",
       "description": "Curso introductorio de Angular"
     },
@@ -44,10 +60,32 @@
       "id": "6fa6",
       "name": "react",
       "description": ""
+    },
+    {
+      "id": "3c86ed24-e18b-4dc6-a719-1d9bfb87e7e9",
+      "name": "CSS",
+      "description": "Inicial"
+    },
+    {
+      "id": "1cdf88f9-8ab9-477c-8a56-a567333e8ef3",
+      "name": "HTML",
+      "description": "Inicial"
+    },
+    {
+      "id": "1b75f57d-1848-40e6-af40-3092c7d0b9d6",
+      "name": "JavaScript",
+      "description": "Avanzado"
+    },
+    {
+      "id": "4eb1d259-4de7-4b49-bdae-653c0d407684",
+      "name": "Typscript",
+      "description": "Avanzado"
     }
   ],
   "inscriptions": [
-    {},
+    {
+      "id": "1e75"
+    },
     {
       "id": "0570",
       "studentId": null,
@@ -89,6 +127,22 @@
       "studentApellido": "ela",
       "courseId": "6fa6",
       "courseNombre": "react"
+    },
+    {
+      "id": "1220",
+      "studentId": null,
+      "studentNombre": "tomass",
+      "studentApellido": "aaaa",
+      "courseId": "1cdf88f9-8ab9-477c-8a56-a567333e8ef3",
+      "courseNombre": "HTML"
+    },
+    {
+      "id": "d12d",
+      "studentId": null,
+      "studentNombre": "tomass",
+      "studentApellido": "aaaa",
+      "courseId": "1b75f57d-1848-40e6-af40-3092c7d0b9d6",
+      "courseNombre": "JavaScript"
     }
   ]
 }

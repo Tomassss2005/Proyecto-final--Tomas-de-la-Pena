@@ -50,7 +50,7 @@ describe('LoginComponent', () => {
     component.logIn();
     expect(loginSpy).toHaveBeenCalled();
   })
-  
+
 
   it('Si el formulario es inválido no se debe hacer login y mostrar un mensaje de error', () => {
 

@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import { Course } from './models';
+import { CoursesService } from './courses.service';
 
 @Component({
   selector: 'app-courses',
@@ -9,30 +11,39 @@ import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss']
 })
-export class CoursesComponent {
+export class CoursesComponent implements OnInit {
   courseForm: FormGroup;
-  courses = [
-    { id: 1, name: 'Angular' },
-    { id: 2, name: 'React' }
-  ];
-  nextId = 3; // para asignar ID único a nuevos cursos
+  courses: Course[] = [];
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private coursesService: CoursesService
+  ) {
     this.courseForm = this.fb.group({
-      name: [''],        // debe coincidir con formControlName en el HTML
-      level: ['']        // agregar control para el nivel seleccionado
+      name: [''],
+      level: ['']
     });
   }
 
-  onSubmit() {
-    const newCourse = this.courseForm.value;
-    if (newCourse.name.trim()) {
-      this.courses.push({
-        id: this.nextId++,
-        name: newCourse.name.trim()
-        // Puedes agregar level si quieres usarlo en la lista
+  ngOnInit(): void {
+    this.coursesService.getCourses().subscribe((data) => {
+      this.courses = data;
+    });
+  }
+
+  onSubmit(): void {
+    const formValue = this.courseForm.value;
+    if (formValue.name.trim()) {
+      const newCourse: Course = {
+        id: crypto.randomUUID(),
+        name: formValue.name.trim(),
+        description: formValue.level || ''
+      };
+
+      this.coursesService.createCourse(newCourse).subscribe((createdCourse) => {
+        this.courses.push(createdCourse);
+        this.courseForm.reset();
       });
-      this.courseForm.reset(); // limpiar formulario después de agregar
     }
   }
 }

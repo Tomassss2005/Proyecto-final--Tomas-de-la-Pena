@@ -19,11 +19,11 @@ export class CoursesService {
         return this.http.post<Course>(`http://localhost:3000/courses`, course);
     }
 
-    updateCourse(id: number, course: Course): Observable<Course> {
+    updateCourse(id: string, course: Course): Observable<Course> {
         return this.http.put<Course>(`http://localhost:3000/courses/${id}`, course);
     }
 
-    deleteCourse(id: number): Observable<void> {
+    deleteCourse(id: string): Observable<void> {
         return this.http.delete<void>(`http://localhost:3000/courses/${id}`);
     }
 }

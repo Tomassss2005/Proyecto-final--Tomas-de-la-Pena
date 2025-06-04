@@ -11,7 +11,6 @@ const routes: Routes = [
   },
   {
     path: 'lists',
-    canActivate: [adminGuard],
     loadChildren: () => import('./modules/lists/lists.module').then((m) => m.ListsModule),
   },
   {

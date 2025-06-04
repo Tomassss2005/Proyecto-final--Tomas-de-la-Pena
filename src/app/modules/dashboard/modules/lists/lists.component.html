@@ -1,1 +1,50 @@
-<p>lists works!</p>
+@if (loading$ | async) {
+<p>Cargando...</p>
+} @else if (error$ | async) {
+<p>Error al cargar la lista de alumnos</p>
+} @else {
+
+
+<h2>Listas de alumnos</h2>
+
+<form (ngSubmit)="onSubmit()" #form="ngForm">
+    <mat-form-field appearance="fill">
+        <input matInput placeholder="Usuario ID" name="userId" [(ngModel)]="formList.userId" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <input matInput placeholder="Estudiante ID" name="studentId" [(ngModel)]="formList.studentId" required />
+    </mat-form-field>
+
+    <button mat-raised-button class="button-form-" type="submit" [disabled]="(authUser$ | async)?.role != 'ADMIN' ">
+        {{ isEditing ? 'Actualizar lista' : 'Crear lista' }}
+    </button>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Estudiante</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let list of lists$ | async">
+            <td>{{ list.id }}</td>
+            <td>{{ list.userId }}</td>
+            <td>{{ list.studentId }}</td>
+            <td mat-cell>
+                <button mat-icon-button (click)="editList(list)" [disabled]="(authUser$ | async)?.role != 'ADMIN' ">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button (click)="onDelete(list)" [disabled]="(authUser$ | async)?.role != 'ADMIN' ">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+}
